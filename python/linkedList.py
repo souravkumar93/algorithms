@@ -68,7 +68,9 @@ class LinkedList:
         temp = self.head
         list = ""
         while temp:
-            list = list + str(temp.data) + "->"
+            if(len(list) != 0):
+                list = list + "->"
+            list = list + str(temp.data)
             temp = temp.next
         print(list)
     
@@ -88,10 +90,34 @@ class LinkedList:
     def getLengthRecusrsive(self):
         return self.lengthRecursive(self.head) 
 
-    #def swapTwoKeysLink(self,key1,key2):
+    def swapTwoKeysLink(self,key1,key2):
+        temp = self.head
+        foundKey1 = False
+        foundKey2 = False
+        while(temp.next != None):
+            if(temp.next.data == key1 and not foundKey1):
+                node1parent = temp
+                node1 = temp.next
+                foundKey1 = True
+            elif(temp.next.data == key2 and not foundKey2):
+                node2 = temp.next
+                node2parent = temp
+                foundKey2 = True
+            temp = temp.next
+
+        if(foundKey1 and foundKey2):
+            node1parent.next = node2
+            tempnode = node2.next
+            node2.next = node1.next
+            node2parent.next = node1
+            node1.next = tempnode          
+
+
+        elif foundKey1:
+            print(str(key2) + "not found")
+        elif foundKey2:
+            print(str(key1)+" not found")
         
-        
-            
 
 if __name__=="__main__":
     list = LinkedList()
@@ -109,5 +135,7 @@ if __name__=="__main__":
     list.addAtBeginning(6)
     list.deleteNode(456)
     list.addAtBeginning(7)
+    list.printList()
+    list.swapTwoKeysLink(34,78)
     list.printList()
     print("Length of list : " + str(list.getLengthRecusrsive()))
